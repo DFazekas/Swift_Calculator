@@ -12,32 +12,38 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var displayLabel: UILabel!
     private var isFinishedTyping: Bool = true
+    private var displayValue: Double {
+        get {
+            guard let number = Double(displayLabel.text!) else {
+                fatalError("Cannot convert display label text to a Double!")
+            }
+            return number
+        }
+        set {
+            displayLabel.text = String(newValue)
+        }
+    }
     
     
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         // Handles clicking operations.
         isFinishedTyping = true
         
-        // Get displayed number.
-        guard let number = Double(displayLabel.text!) else {
-            fatalError("Cannot convert display lable text to a Double.")
-        }
-        
         // Identify which operation to apply.
         if let calcMethod = sender.currentTitle {
             // Reset displayed number.
             if calcMethod == "AC" {
-                displayLabel.text = "0"
+                displayValue = 0
             }
             
             // Toggle negativity.
             else if calcMethod == "+/-" {
-                displayLabel.text = String(number * -1)
+                displayValue *= -1
             }
                 
             // Convert to percentage.
             else if calcMethod == "%" {
-                displayLabel.text = String(number / 100)
+                displayValue *= 0.01
             }
         }
     }
