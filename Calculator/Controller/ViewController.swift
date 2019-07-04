@@ -24,26 +24,18 @@ class ViewController: UIViewController {
         }
     }
     
-    
+    private var calculator = CalculatorLogic()
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         // Handles clicking operations.
         isFinishedTyping = true
         
+        calculator.setNumber(displayValue)
+        
         // Identify which operation to apply.
         if let calcMethod = sender.currentTitle {
-            // Reset displayed number.
-            if calcMethod == "AC" {
-                displayValue = 0
-            }
             
-            // Toggle negativity.
-            else if calcMethod == "+/-" {
-                displayValue *= -1
-            }
-                
-            // Convert to percentage.
-            else if calcMethod == "%" {
-                displayValue *= 0.01
+            if let result = calculator.calculate(symbol: calcMethod) {
+                displayValue = result
             }
         }
     }
